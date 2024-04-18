@@ -44,6 +44,7 @@ INSTALLED_APPS_DEV = [
 ]
 
 INSTALLED_APPS_BALLOT = [
+    'districts',
     'voting',
 ]
 
