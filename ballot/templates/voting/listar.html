@@ -1,0 +1,76 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% block title %}Partidos Politicos{% endblock title %}
+
+{% block head %}
+    <link href="{% static 'admin/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+    <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}
+    <div class="pagetitle">
+        <h1>Partidos Politicos</h1>
+        <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item active">Partidos Politicos</li>
+        </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12">
+
+    <div class="card">
+        <div class="card-header d-flex flex-row-reverse">
+            <a href="{% url 'political_parties_create' %}" class="btn btn-primary btn-custom"><i class="bi bi-plus-circle-fill"></i> Agregar</a>
+        </div>
+      <div class="card-body">
+        <!-- Table -->
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th class="text-center">Nro. Lista</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Presidente</th>
+              <th class="text-center">Vice Presidente</th>
+              <th class="text-center">Eslogan</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in object_list %}
+            <tr>
+              <td class="text-center">{{o.party_number}}</td>
+              <td class="text-center">{{o.party_name}}</td>
+              <td class="text-center">{{o.president}}</td>
+              <td class="text-center">{{o.vice_president}}</td>
+              <td class="text-center" title="{{o.slogan}}">{{o.slogan|truncatechars:50}}</td>
+              <td class="text-center">
+                <div class="dropdown">
+                    <a class="btn btn-info btn-custom" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <li><a class="dropdown-item" href="{% url 'political_parties_update' o.pk %}"><i class="bi bi-pencil-square"></i> Editar</a></li>
+                      <li><a class="dropdown-item" href="{% url 'political_parties_delete' o.pk %}"><i class="bi bi-trash"></i> Eliminar</a></li>
+                    </ul>
+                  </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- End Table -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+{% endblock %}

@@ -24,10 +24,14 @@
   <link href="{% static 'admin/assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
   <link href="{% static 'admin/assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
   <link href="{% static 'admin/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-  <link href="{% static 'admin/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="{% static 'admin/assets/css/style.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  {% block head %}
+  {% endblock %}
 </head>
 
 <body>
@@ -87,21 +91,21 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
-        <a class="nav-link" href="">
+        <a class="nav-link {% if sidebar_active != 'electores' %}collapsed{%endif%}" href="">
           <i class="bi bi-people-fill"></i>
           <span>Electores</span>
         </a>
       </li><!-- End Electores Nav -->
 
       <li class="nav-item" title="Visualizar y gestionar Partidos para esta elección">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link {% if sidebar_active != 'listas' %}collapsed{%endif%}" href="{% url 'political_parties_list' %}">
           <i class="bi bi-grid"></i>
-          <span>Listas</span>
+          <span>Partidos Politicos</span>
         </a>
       </li><!-- End Listas Nav -->
 
       <li class="nav-item" title="Gestionar la elección. Comenzar y Detener">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link {% if sidebar_active != 'elecciones' %}collapsed{%endif%}" href="">
           <i class="bi bi-card-text"></i>
           <span>Elección</span>
         </a>
@@ -112,16 +116,8 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+    {% block page_title %}
+    {% endblock %}
 
     <section class="section dashboard">
       <div class="row">
@@ -141,13 +137,14 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- Vendor JS Files -->
   <script src="{% static 'admin/assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/chart.js/chart.umd.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/echarts/echarts.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/quill/quill.min.js' %}"></script>
-  <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/tinymce/tinymce.min.js' %}"></script>
 
   <!-- Template Main JS File -->
@@ -155,7 +152,6 @@
 
   {% block js %}
   {% endblock %}
-
 </body>
 
 </html>
