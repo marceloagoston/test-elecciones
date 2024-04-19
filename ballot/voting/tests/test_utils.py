@@ -1,6 +1,7 @@
 import pytest
+from datetime import date
 
-from voting.utils import has_voted, has_voted_percentage
+from voting.utils import has_voted, has_voted_percentage, can_vote
 from .factories import VoterFactory
 
 
@@ -41,3 +42,22 @@ def test_has_voted_percentage(voters_data, expected_percentage):
     voted_percentage = has_voted_percentage()
 
     assert voted_percentage == pytest.approx(expected_percentage, abs=0.01)
+
+
+# Birth date Test
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'birth_date, expected_result',
+    [
+        (date(1991, 1, 1), True),  # Test case para una persona mayor de edad
+        (date(2010, 1, 1), False),  # Test case para una persona menor de edad
+        (
+            date.today(),
+            False,
+        ),  # Test case para una persona que acaba de nacer (siempre debe fallar)
+    ],
+)
+def test_is_adult(birth_date, expected_result):
+    voter = VoterFactory(birth_date=birth_date)
+
+    assert can_vote(voter.birth_date) == expected_result
