@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 
 from .models import PoliticalParty, Voter
 
+from .utils import can_vote
+
 
 class PoliticalPartyForm(forms.ModelForm):
     class Meta:
@@ -95,7 +97,11 @@ class VoterForm(forms.ModelForm):
 
     def clean_birth_date(self):
         """Validar si edad de votante elegida es mayor a 18 años"""
-        # FIXME validar edad
+        if not can_vote(self.cleaned_data['birth_date']):
+            raise ValidationError(
+                'La persona debe tener mas de 18 años para poder registrarse como votante'
+            )
+
         return self.cleaned_data['birth_date']
 
     def clean_dni(self):
