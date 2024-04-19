@@ -91,11 +91,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
-        <a class="nav-link {% if sidebar_active != 'electores' %}collapsed{%endif%}" href="">
+        <a class="nav-link {% if sidebar_active != 'votantes' %}collapsed{%endif%}" href="{% url 'voter_list' %}">
           <i class="bi bi-people-fill"></i>
-          <span>Electores</span>
+          <span>Votantes</span>
         </a>
-      </li><!-- End Electores Nav -->
+      </li><!-- End Votantes Nav -->
 
       <li class="nav-item" title="Visualizar y gestionar Partidos para esta elección">
         <a class="nav-link {% if sidebar_active != 'listas' %}collapsed{%endif%}" href="{% url 'political_parties_list' %}">

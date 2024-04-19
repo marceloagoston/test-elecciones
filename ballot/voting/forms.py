@@ -1,6 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
-from .models import PoliticalParty
+from .models import PoliticalParty, Voter
 
 
 class PoliticalPartyForm(forms.ModelForm):
@@ -44,3 +45,62 @@ class PoliticalPartyForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Ingrese el eslogan del partido'}
             ),
         }
+
+
+class VoterForm(forms.ModelForm):
+    updating = False
+
+    class Meta:
+        model = Voter
+        fields = ['last_name', 'first_name', 'dni', 'birth_date']
+        labels = {
+            'last_name': 'Apellido*',
+            'first_name': 'Nombre*',
+            'dni': 'DNI*',
+            'birth_date': 'Fecha Nacimiento*',
+        }
+
+        widgets = {
+            'last_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el apellido del votante',
+                }
+            ),
+            'first_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el nombre del votante',
+                }
+            ),
+            'dni': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el DNI del votante',
+                }
+            ),
+            'birth_date': forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese fecha de nacimiento',
+                }
+            ),
+        }
+
+    def clean_birth_date(self):
+        """Validar si edad de votante elegida es mayor a 18 años"""
+        # FIXME validar edad
+
+    def clean_dni(self):
+        """Validar si DNI es válido y único"""
+        instance = getattr(self, 'instance', None)
+        dni_exclude = instance.dni if instance else None
+
+        if self.cleaned_data['dni'] < 1000000 or self.cleaned_data['dni'] > 99999999:
+            raise ValidationError('Debe ingresar un DNI válido')
+
+        if Voter.objects.filter(dni=self.cleaned_data['dni']).exclude(dni=dni_exclude).exists():
+            raise ValidationError('Ya existe un votante con ese DNI')
+
+        return self.cleaned_data['dni']

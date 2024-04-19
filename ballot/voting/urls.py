@@ -14,4 +14,8 @@ urlpatterns = [
         views.PoliticalPartyDeleteView.as_view(),
         name='political_parties_delete',
     ),
+    path('votantes/', views.VoterListView.as_view(), name='voter_list'),
+    path('votantes/crear/', views.VoterCreateView.as_view(), name='voter_create'),
+    path('votantes/editar/<int:pk>', views.VoterUpdateView.as_view(), name='voter_update'),
+    path('votantes/eliminar/<int:pk>', views.VoterDeleteView.as_view(), name='voter_delete'),
 ]
