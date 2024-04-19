@@ -45,18 +45,10 @@ class Voter(models.Model):
         verbose_name = 'Voter'
         verbose_name_plural = 'Voters'
 
-    def save(self, *args, **kwargs):
-        if ElectionHandler.objects.all().first().status != 'pen':
-            raise ValidationError(
-                'No se puede crear/modificar registros con la elección abierta o finalizada '
-            )
-
-        super().save(*args, **kwargs)
-
     def delete(self, *args, **kwargs):
         if ElectionHandler.objects.all().first().status != 'pen':
             raise ValidationError(
-                'No se puede crear/modificar registros con la elección abierta o finalizada '
+                'No se puede eliminar registros con la elección abierta o finalizada '
             )
 
         super().delete(*args, **kwargs)
