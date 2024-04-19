@@ -13,3 +13,6 @@ pnpm-debug.log
 # static and media
 media/
 static/
+
+# auxiliar script
+01_script_base.py
