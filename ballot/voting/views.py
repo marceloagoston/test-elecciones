@@ -10,8 +10,10 @@ from django.http import HttpResponseRedirect
 from .models import ElectionHandler, PoliticalParty, Voter
 from .forms import PoliticalPartyForm, VoterForm
 
+from accounts.utils import AdminMixin
 
-class PoliticalPartyListView(LoginRequiredMixin, ListView):
+
+class PoliticalPartyListView(LoginRequiredMixin, AdminMixin, ListView):
     model = PoliticalParty
     template_name = 'voting/partidos/listar.html'
 
@@ -21,7 +23,7 @@ class PoliticalPartyListView(LoginRequiredMixin, ListView):
         return context
 
 
-class PoliticalPartyCreateView(LoginRequiredMixin, CreateView):
+class PoliticalPartyCreateView(LoginRequiredMixin, AdminMixin, CreateView):
     model = PoliticalParty
     form_class = PoliticalPartyForm
     template_name = 'voting/partidos/form.html'
@@ -38,7 +40,7 @@ class PoliticalPartyCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PoliticalPartyUpdateView(LoginRequiredMixin, UpdateView):
+class PoliticalPartyUpdateView(LoginRequiredMixin, AdminMixin, UpdateView):
     model = PoliticalParty
     form_class = PoliticalPartyForm
     template_name = 'voting/partidos/form.html'
@@ -55,7 +57,7 @@ class PoliticalPartyUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PoliticalPartyDeleteView(LoginRequiredMixin, DeleteView):
+class PoliticalPartyDeleteView(LoginRequiredMixin, AdminMixin, DeleteView):
     model = PoliticalParty
     template_name = 'voting/partidos/eliminar.html'
     success_url = reverse_lazy('political_parties_list')
@@ -66,7 +68,7 @@ class PoliticalPartyDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class VoterListView(LoginRequiredMixin, ListView):
+class VoterListView(LoginRequiredMixin, AdminMixin, ListView):
     model = Voter
     template_name = 'voting/votantes/listar.html'
 
@@ -76,7 +78,7 @@ class VoterListView(LoginRequiredMixin, ListView):
         return context
 
 
-class VoterCreateView(LoginRequiredMixin, CreateView):
+class VoterCreateView(LoginRequiredMixin, AdminMixin, CreateView):
     model = Voter
     form_class = VoterForm
     template_name = 'voting/votantes/form.html'
@@ -93,7 +95,7 @@ class VoterCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class VoterUpdateView(LoginRequiredMixin, UpdateView):
+class VoterUpdateView(LoginRequiredMixin, AdminMixin, UpdateView):
     model = Voter
     form_class = VoterForm
     template_name = 'voting/votantes/form.html'
@@ -110,7 +112,7 @@ class VoterUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class VoterDeleteView(LoginRequiredMixin, DeleteView):
+class VoterDeleteView(LoginRequiredMixin, AdminMixin, DeleteView):
     model = Voter
     template_name = 'voting/votantes/eliminar.html'
     success_url = reverse_lazy('voter_list')
@@ -127,7 +129,7 @@ class VoterDeleteView(LoginRequiredMixin, DeleteView):
         return redirect(self.success_url)
 
 
-class ElectionHandlerView(LoginRequiredMixin, TemplateView):
+class ElectionHandlerView(LoginRequiredMixin, AdminMixin, TemplateView):
     template_name = 'voting/election_handler/handler.html'
     login_url = 'login'
 

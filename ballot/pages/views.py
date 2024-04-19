@@ -3,8 +3,10 @@ from django.views.generic import TemplateView
 
 from voting.models import Voter
 
+from accounts.utils import AdminMixin
 
-class DashboardHome(LoginRequiredMixin, TemplateView):
+
+class DashboardHome(LoginRequiredMixin, AdminMixin, TemplateView):
     template_name = 'admin_dashboard.html'
     login_url = 'login'
 
