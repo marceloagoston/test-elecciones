@@ -18,4 +18,5 @@ urlpatterns = [
     path('votantes/crear/', views.VoterCreateView.as_view(), name='voter_create'),
     path('votantes/editar/<int:pk>', views.VoterUpdateView.as_view(), name='voter_update'),
     path('votantes/eliminar/<int:pk>', views.VoterDeleteView.as_view(), name='voter_delete'),
+    path('election-handler/', views.ElectionHandlerView.as_view(), name='election_handler'),
 ]

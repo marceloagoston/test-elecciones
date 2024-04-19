@@ -1,11 +1,13 @@
 from django.shortcuts import redirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .models import PoliticalParty, Voter
+from django.http import HttpResponseRedirect
+
+from .models import ElectionHandler, PoliticalParty, Voter
 from .forms import PoliticalPartyForm, VoterForm
 
 
@@ -123,3 +125,20 @@ class VoterDeleteView(LoginRequiredMixin, DeleteView):
 
         messages.success(request, 'Votante eliminado exitosamente')
         return redirect(self.success_url)
+
+
+class ElectionHandlerView(LoginRequiredMixin, TemplateView):
+    template_name = 'voting/election_handler/handler.html'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sidebar_active'] = 'elecciones'
+        context['object'] = ElectionHandler.objects.all().first()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        obj_instance = self.get_context_data()['object']
+        obj_instance.status = obj_instance.next_status
+        obj_instance.save()
+        return HttpResponseRedirect(self.request.path_info)

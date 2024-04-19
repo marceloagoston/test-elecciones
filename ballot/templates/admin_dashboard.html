@@ -34,9 +34,7 @@
                 <i class="bi bi-people"></i>
               </div>
               <div class="ps-3">
-                <h6>1244</h6>
-                <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                <h6>{{cant_votantes}}</h6>
               </div>
             </div>
 
@@ -51,15 +49,23 @@
         <div class="card">
 
           <div class="card-body">
-            <h5 class="card-title">Votos emitidos</h5>
+            <h5 class="card-title"><i class="bi bi-percent"></i> Votos emitidos</h5>
 
             <!-- Line Chart -->
             <div id="reportsChart"></div>
 
+            {{ cant_votantes|json_script:'cant_votantes' }}
+            {{ votos_emitidos|json_script:'votos_emitidos' }}
+
             <script>
               document.addEventListener("DOMContentLoaded", () => {
+
+                var cant_votantes = JSON.parse(document.getElementById('cant_votantes').textContent);
+                var votos_emitidos = JSON.parse(document.getElementById('votos_emitidos').textContent);
+
                 new ApexCharts(document.querySelector("#reportsChart"), {
-                  series: [44, 55, 41, 17, 15],
+                  series: [votos_emitidos, cant_votantes - votos_emitidos],
+                  labels: ['Votos Emitidos', 'Cantidad de Votantes'],
                   chart: {
                     type: 'pie',
                   },

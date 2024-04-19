@@ -26,7 +26,9 @@
 
     <div class="card">
         <div class="card-header d-flex flex-row-reverse">
+          {% if election_status == 'pen' %}
             <a href="{% url 'political_parties_create' %}" class="btn btn-primary btn-custom"><i class="bi bi-plus-circle-fill"></i> Agregar</a>
+          {%endif%}
         </div>
       <div class="card-body">
         <!-- Table -->
@@ -38,7 +40,9 @@
               <th class="text-center">Presidente</th>
               <th class="text-center">Vice Presidente</th>
               <th class="text-center">Eslogan</th>
-              <th class="text-center">Acciones</th>
+              {% if election_status == 'pen' %}
+                <th class="text-center">Acciones</th>
+              {%endif%}
             </tr>
           </thead>
           <tbody>
@@ -49,18 +53,20 @@
               <td class="text-center">{{o.president}}</td>
               <td class="text-center">{{o.vice_president}}</td>
               <td class="text-center" title="{{o.slogan}}">{{o.slogan|truncatechars:50}}</td>
-              <td class="text-center">
-                <div class="dropdown">
-                    <a class="btn btn-info btn-custom" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-gear"></i>
-                    </a>
+              {% if election_status == 'pen' %}
+                <td class="text-center">
+                  <div class="dropdown">
+                      <a class="btn btn-info btn-custom" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="bi bi-gear"></i>
+                      </a>
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <li><a class="dropdown-item" href="{% url 'political_parties_update' o.pk %}"><i class="bi bi-pencil-square"></i> Editar</a></li>
-                      <li><a class="dropdown-item" href="{% url 'political_parties_delete' o.pk %}"><i class="bi bi-trash"></i> Eliminar</a></li>
-                    </ul>
-                  </div>
-              </td>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'political_parties_update' o.pk %}"><i class="bi bi-pencil-square"></i> Editar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'political_parties_delete' o.pk %}"><i class="bi bi-trash"></i> Eliminar</a></li>
+                      </ul>
+                    </div>
+                </td>
+              {%endif%}
             </tr>
             {% endfor %}
           </tbody>

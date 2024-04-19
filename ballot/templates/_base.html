@@ -91,6 +91,13 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
+        <a class="nav-link {% if sidebar_active != 'dashboard' %}collapsed{%endif%}" href="{% url 'dashboard_home' %}">
+          <i class="bi bi-pie-chart-fill"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
         <a class="nav-link {% if sidebar_active != 'votantes' %}collapsed{%endif%}" href="{% url 'voter_list' %}">
           <i class="bi bi-people-fill"></i>
           <span>Votantes</span>
@@ -105,7 +112,7 @@
       </li><!-- End Listas Nav -->
 
       <li class="nav-item" title="Gestionar la elección. Comenzar y Detener">
-        <a class="nav-link {% if sidebar_active != 'elecciones' %}collapsed{%endif%}" href="">
+        <a class="nav-link {% if sidebar_active != 'elecciones' %}collapsed{%endif%}" href="{% url 'election_handler' %}">
           <i class="bi bi-card-text"></i>
           <span>Elección</span>
         </a>
