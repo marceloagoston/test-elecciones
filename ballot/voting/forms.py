@@ -12,10 +12,10 @@ class PoliticalPartyForm(forms.ModelForm):
         fields = ['party_number', 'party_name', 'president', 'vice_president', 'slogan']
         labels = {
             'party_number': 'Nro. de Partido*',
-            'party_name': 'Nombre del Partido',
-            'president': 'Presidente',
-            'vice_president': 'Vice Presidente',
-            'slogan': 'Eslogan',
+            'party_name': 'Nombre del Partido*',
+            'president': 'Presidente*',
+            'vice_president': 'Vice Presidente*',
+            'slogan': 'Eslogan*',
         }
 
         widgets = {
