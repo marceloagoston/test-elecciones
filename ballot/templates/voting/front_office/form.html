@@ -1,0 +1,99 @@
+{% extends 'front_office/_base.html' %}
+
+{% load static %}
+
+{% block title %}Votar{% endblock title %}
+
+
+{% block content %}
+<br><br>
+<div class="container">
+<div class="d-flex justify-content-center">
+    <div class="col-lg-10">
+        <div id="check-form">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">DNI</label>
+                <input type="number" class="form-control" id="dni" placeholder="Ingrese su DNI">
+            </div>
+            <button id="submitButton" class="btn btn-primary">Enviar</button>
+        </div>
+                <form id="voteForm" method="POST" style="display: none;">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="d-flex justify-content-evenly">
+                            <div class="col">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title">Voto en blanco</h5>
+                                    <hr>
+                                    <p class="card-text">Elija esta opción para votar en blanco</p>
+                                    <ul>
+                                        <li>Presidente: -</li>
+                                        <li>Vice presidente: -</li>
+                                    </ul>
+                                    <button id="0" class="btn btn-primary" type="submit">Votar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for p in party_object_list %}
+                                <div class="col">
+                                    <div class="card" style="width: 18rem;">
+                                        <!-- <img src="..." class="card-img-top" alt="..."> -->
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{p.party_name}} ({{p.party_number}})</h5>
+                                        <hr>
+                                        <p class="card-text">{{p.slogan}}</p>
+                                        <ul>
+                                            <li>Presidente: {{p.president}}</li>
+                                            <li>Vice presidente: {{p.vice_president}}</li>
+                                        </ul>
+                                        <button id="{{p.id}}" class="btn btn-primary" type="submit">Votar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+</div>
+</div>
+<br><br><br><br>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $('#submitButton').click(function() {
+            var dni = $('#dni').val();
+            $.ajax({
+                url: `{% url 'check_votacion' %}`,
+                method: 'POST',
+                data: {
+                    dni: dni
+                },
+                success: function(response) {
+                    console.log('Solicitud AJAX exitosa:', response.condicion);
+                    if(response.condicion){
+                        document.getElementById("check-form").style.display = 'none';
+                        document.getElementById("voteForm").style.display = 'block';
+                        $('#voteForm').append('<input type="hidden" name="dni" value="' + dni + '">');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#voteForm button').click(function(event) {
+            var buttonId = event.target.id;
+            $('#voteForm').append(`<input type="hidden" name="lista" value="${buttonId}">`);
+        });
+    });
+</script>
+{% endblock %}

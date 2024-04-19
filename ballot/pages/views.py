@@ -6,6 +6,10 @@ from voting.models import Voter
 from accounts.utils import AdminMixin
 
 
+class Landing(TemplateView):
+    template_name = 'front_office/home.html'
+
+
 class DashboardHome(LoginRequiredMixin, AdminMixin, TemplateView):
     template_name = 'admin_dashboard.html'
     login_url = 'login'

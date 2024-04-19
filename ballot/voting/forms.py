@@ -116,3 +116,7 @@ class VoterForm(forms.ModelForm):
             raise ValidationError('Ya existe un votante con ese DNI')
 
         return self.cleaned_data['dni']
+
+
+class FormVotacion(forms.Form):
+    partidos = forms.ModelChoiceField(queryset=PoliticalParty.objects.all())

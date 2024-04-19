@@ -1,0 +1,48 @@
+{% extends 'front_office/_base.html' %}
+
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+        <section id="services" class="services section">
+
+        <div class="container section-title" data-aos="fade-up">
+            {% if election_status == 'pen' %}
+                <h2>Votación no comenzada</h2>
+                <p>Espere a la habilitación del sufragio para poder emitir su voto</p>
+            {% elif election_status == 'abi' %}
+                <h2>Votación en curso</h2>
+                <p>Ya puede emitir su voto</p>
+            {% elif election_status == 'cer' %}
+                <h2>Votación Finaliza</h2>
+                <p>La Votación finalizó. Puede ver los resultados a continuación</p>
+            {%endif %}
+        </div>
+
+        <div class="container">
+
+            <div class="row gy-4">
+
+            <div class="col-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-item position-relative">
+                <div class="icon"><i class="bi bi-activity icon"></i></div>
+                <h4><a href="service-details.html" class="stretched-link">Lorem Ipsum</a></h4>
+                <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                </div>
+            </div><!-- End Service Item -->
+
+            <div class="col-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-item position-relative">
+                <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
+                <h4><a href="service-details.html" class="stretched-link">Sed ut perspici</a></h4>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                </div>
+            </div><!-- End Service Item -->
+
+            </div>
+
+        </div>
+
+        </section>
+    {% endblock %}

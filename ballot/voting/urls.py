@@ -19,4 +19,8 @@ urlpatterns = [
     path('votantes/editar/<int:pk>', views.VoterUpdateView.as_view(), name='voter_update'),
     path('votantes/eliminar/<int:pk>', views.VoterDeleteView.as_view(), name='voter_delete'),
     path('election-handler/', views.ElectionHandlerView.as_view(), name='election_handler'),
+    # Public votation
+    path('vote/', views.VoteHandlerView.as_view(), name='vote_election_handler'),
+    # AJAX Check puede votar
+    path('check-vote/', views.check_puede_votar, name='check_votacion'),
 ]
