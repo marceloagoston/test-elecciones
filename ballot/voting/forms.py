@@ -52,12 +52,13 @@ class VoterForm(forms.ModelForm):
 
     class Meta:
         model = Voter
-        fields = ['last_name', 'first_name', 'dni', 'birth_date']
+        fields = ['last_name', 'first_name', 'dni', 'birth_date', 'district']
         labels = {
             'last_name': 'Apellido*',
             'first_name': 'Nombre*',
             'dni': 'DNI*',
             'birth_date': 'Fecha Nacimiento*',
+            'district': 'Distrito*',
         }
 
         widgets = {
@@ -88,9 +89,14 @@ class VoterForm(forms.ModelForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['district'].widget.attrs['class'] = 'form-control'
+
     def clean_birth_date(self):
         """Validar si edad de votante elegida es mayor a 18 años"""
         # FIXME validar edad
+        return self.cleaned_data['birth_date']
 
     def clean_dni(self):
         """Validar si DNI es válido y único"""

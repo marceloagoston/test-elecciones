@@ -1,5 +1,7 @@
 from django.db import models
 
+from districts.models import District
+
 
 class Voter(models.Model):
     first_name = models.CharField(max_length=50)
@@ -7,6 +9,8 @@ class Voter(models.Model):
     dni = models.PositiveIntegerField(unique=True)
     birth_date = models.DateField()
     has_voted = models.BooleanField(default=False)
+
+    district = models.ForeignKey(District, on_delete=models.PROTECT, null=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
