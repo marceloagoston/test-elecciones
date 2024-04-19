@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import Voter, PoliticalParty
+from .models import ElectionHandler, Voter, PoliticalParty
+
+
+@admin.register(ElectionHandler)
+class ElectionHandlerAdmin(admin.ModelAdmin):
+    list_display = ('status',)
 
 
 @admin.register(Voter)

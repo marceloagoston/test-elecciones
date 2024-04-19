@@ -1,0 +1,88 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% block title %}Votantes{% endblock title %}
+
+{% block head %}
+    <link href="{% static 'admin/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+    <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}
+    <div class="pagetitle">
+        <h1>Votantes</h1>
+        <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item active">Votantes</li>
+        </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12">
+
+    <div class="card">
+        <div class="card-header d-flex flex-row-reverse">
+            {% if election_status == 'pen' %}
+              <a href="{% url 'voter_create' %}" class="btn btn-primary btn-custom"><i class="bi bi-plus-circle-fill"></i> Agregar</a>
+            {% endif %}
+        </div>
+      <div class="card-body">
+        <!-- Table -->
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th class="text-center">Apellido</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">DNI</th>
+              <th class="text-center">Fecha Nacimiento</th>
+              <th class="text-center">Voto emitido</th>
+              {% if election_status == 'pen' %}
+                <th class="text-center">Acciones</th>
+              {%endif%}
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in object_list %}
+            <tr>
+              <td class="text-center">{{o.last_name}}</td>
+              <td class="text-center">{{o.first_name}}</td>
+              <td class="text-center">{{o.dni}}</td>
+              <td class="text-center">{{o.birth_date|date:'d/m/Y'}}</td>
+              <td class="text-center" title="{{o.slogan}}">
+                {% if o.has_voted %}
+                  <i class="bi bi-check-circle" title="Esta persona ya emitió su voto en esta elección" style="color: green;"></i>
+                {%else%}
+                  <i class="bi bi-x-circle" title="Esta persona aún no emitió su voto en esta elección" style="color: red;"></i>
+                {%endif%}
+              </td>
+              {% if election_status == 'pen' %}
+                <td class="text-center">
+                  <div class="dropdown">
+                      <a class="btn btn-info btn-custom" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="bi bi-gear"></i>
+                      </a>
+
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'voter_update' o.pk %}"><i class="bi bi-pencil-square"></i> Editar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'voter_delete' o.pk %}"><i class="bi bi-trash"></i> Eliminar</a></li>
+                      </ul>
+                    </div>
+                </td>
+              {%endif%}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- End Table -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+{% endblock %}

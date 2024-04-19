@@ -1,0 +1,49 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% block title %}{% if object %}Editar{%else%}Crear{%endif%} | Votantes{% endblock title %}
+
+{% block page_title %}
+    <div class="pagetitle">
+        <h1>Votantes</h1>
+        <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard_home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'voter_list' %}">Votantes</a></li>
+            {% if object %}
+                <li class="breadcrumb-item">{{object.last_name}} ({{object.first_name}})</li>
+                <li class="breadcrumb-item active">Editar</li>
+            {% else %}
+                <li class="breadcrumb-item active">Crear</li>
+            {% endif %}
+        </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% include "includes/_form_errors.html" %}
+                    {% include "includes/_forms.html" %}
+
+                    <br>
+                    <hr>
+                    <br>
+
+                    <div class="d-flex justify-content-evenly">
+                        <a href="{% url 'voter_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button class="btn btn-primary btn-custom" type="submit">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -24,10 +24,14 @@
   <link href="{% static 'admin/assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
   <link href="{% static 'admin/assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
   <link href="{% static 'admin/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-  <link href="{% static 'admin/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="{% static 'admin/assets/css/style.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  {% block head %}
+  {% endblock %}
 </head>
 
 <body>
@@ -87,21 +91,28 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
-        <a class="nav-link" href="">
-          <i class="bi bi-people-fill"></i>
-          <span>Electores</span>
+        <a class="nav-link {% if sidebar_active != 'dashboard' %}collapsed{%endif%}" href="{% url 'dashboard_home' %}">
+          <i class="bi bi-pie-chart-fill"></i>
+          <span>Dashboard</span>
         </a>
-      </li><!-- End Electores Nav -->
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item" title="Visualizar y gestionar electores para esta elección">
+        <a class="nav-link {% if sidebar_active != 'votantes' %}collapsed{%endif%}" href="{% url 'voter_list' %}">
+          <i class="bi bi-people-fill"></i>
+          <span>Votantes</span>
+        </a>
+      </li><!-- End Votantes Nav -->
 
       <li class="nav-item" title="Visualizar y gestionar Partidos para esta elección">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link {% if sidebar_active != 'listas' %}collapsed{%endif%}" href="{% url 'political_parties_list' %}">
           <i class="bi bi-grid"></i>
-          <span>Listas</span>
+          <span>Partidos Politicos</span>
         </a>
       </li><!-- End Listas Nav -->
 
       <li class="nav-item" title="Gestionar la elección. Comenzar y Detener">
-        <a class="nav-link collapsed" href="">
+        <a class="nav-link {% if sidebar_active != 'elecciones' %}collapsed{%endif%}" href="{% url 'election_handler' %}">
           <i class="bi bi-card-text"></i>
           <span>Elección</span>
         </a>
@@ -112,16 +123,8 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+    {% block page_title %}
+    {% endblock %}
 
     <section class="section dashboard">
       <div class="row">
@@ -141,21 +144,48 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- Vendor JS Files -->
   <script src="{% static 'admin/assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/chart.js/chart.umd.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/echarts/echarts.min.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/quill/quill.min.js' %}"></script>
-  <script src="{% static 'admin/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
   <script src="{% static 'admin/assets/vendor/tinymce/tinymce.min.js' %}"></script>
 
   <!-- Template Main JS File -->
   <script src="{% static 'admin/assets/js/main.js' %}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  {% if messages %}
+  {% for message in messages %}
+    <script>
+        $(function() {
+          var messageShow = "{{ message }}"
+
+          var messageTag = "{{message.tags}}"
+
+          var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000
+          });
+
+          Toast.fire({
+            icon: messageTag,
+            title: messageShow
+          })
+        });
+    </script>
+  {% endfor %}
+{% endif %}
+
   {% block js %}
   {% endblock %}
-
 </body>
 
 </html>

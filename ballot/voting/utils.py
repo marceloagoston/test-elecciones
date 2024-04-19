@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from .models import Voter
 
 
@@ -17,3 +19,19 @@ def has_voted_percentage():
         return 0
 
     return (voted_voters / total_voters) * 100
+
+
+def can_vote(birth_date):
+    """Función para validar si una persona es mayor de edad o no
+
+    Params:
+        - birth_date: Fecha de nacimiento
+
+    Return
+        - Bool: indica si la persona tiene 18 años o mas
+    """
+    current_date = datetime.now()
+
+    date_avaible = current_date - timedelta(days=365 * 18)
+
+    return birth_date <= date_avaible.date()

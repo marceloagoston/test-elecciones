@@ -5,7 +5,7 @@ class Province(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
     class Meta:
         verbose_name = 'Province'
@@ -17,7 +17,7 @@ class District(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
 
     def __str__(self):
-        return {self.name}
+        return f'{self.province.name} - {self.name}'
 
     class Meta:
         verbose_name = 'Province'
